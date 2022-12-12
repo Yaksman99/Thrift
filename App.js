@@ -1,10 +1,10 @@
-//import { Intro } from "./screens/Intro";
-//import { Home } from "./screens/Home";
-import { Signup } from "./screens/Signup";
+import { NavigationContainer } from "@react-navigation/native";
+import { StackNavigation } from "./screens/Stack";
+
 export default function App() {
   return (
-   <>
-   <Signup />
-   </>
+   <NavigationContainer>
+    <StackNavigation />
+   </NavigationContainer>
   );
   }

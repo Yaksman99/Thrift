@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
-export function Signup () {
+export function Signup ({navigation}) {
     const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function Signup () {
                     <View style={styles.info}>
                     <Text style={styles.infoTitle}>Already Have an Account?</Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Sign in')}>
                     <FontAwesomeIcon icon={faCircleArrowRight}
                     color ={Theme.colors.purple700}
                     size={Theme.sizes[5]}/>
@@ -111,7 +111,7 @@ export function Signup () {
                     style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
                     secureTextEntry={true} />
 
-
+                  
                     <Button
                     mode="contained"
                     color={Theme.colors.purple700} contentStyle={{paddingVertical:Theme.sizes[3]}}>Create Account
