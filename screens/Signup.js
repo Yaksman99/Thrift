@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
         fontSize:Theme.fonts.fontSizePoint.h5
     },
     form:{
-        marginTop:Theme.sizes[2]
+        marginTop:Theme.sizes[2],
+        
     },
 })
