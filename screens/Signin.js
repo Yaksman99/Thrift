@@ -12,14 +12,6 @@ export function Signin () {
 
                 <View style={styles.form}>
                     <TextInput
-                    placeholder='Name'
-                    mode='outlined'
-                    outlineColor={Theme.colors.maroon300}
-                    activeOutlineColor={Theme.colors.maroon500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} />
-
-                    
-                    <TextInput
                     placeholder='Email Address'
                     mode='outlined'
                     outlineColor={Theme.colors.maroon300}
@@ -28,7 +20,7 @@ export function Signin () {
                     keyboardType='email-address' />
 
                     <TextInput
-                    placeholder='Input Password'
+                    placeholder='Password'
                     mode='outlined'
                     outlineColor={Theme.colors.maroon300}
                     activeOutlineColor={Theme.colors.maroon500}
@@ -39,7 +31,7 @@ export function Signin () {
                     <TouchableOpacity style={styles.sign}> 
                         <Button
                             mode="contained"
-                            color={Theme.colors.maroon700} contentStyle={[Theme.sizes[4]]}>Sign In
+                            color={Theme.colors.maroon700} contentStyle={{paddingVertical:Theme.sizes[3]}}>Sign In
                         </Button>
                     </TouchableOpacity>
                 </View>
@@ -66,10 +58,9 @@ const styles = StyleSheet.create({
     form:{
         marginTop:Theme.sizes[5],
     },
-    sign:{
-        padding:40,
+     sign:{
         marginVertical:20,
-    }  
+     },  
     
 
 })
