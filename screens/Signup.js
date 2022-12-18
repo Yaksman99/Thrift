@@ -8,10 +8,39 @@ import { Righteous_400Regular } from '@expo-google-fonts/righteous';
 import { Button, TextInput } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { object } from 'yup/lib/locale';
 
+const formRules = yup.object({
+  lastName:yup.string('invalid characters')
+  .min(2,'must be at least 2 characters')
+  .max(32,'not more than 32 characters')
+  .required('This is a compulsory field'),
+
+  firstName:yup.string('invalid characters')
+  .min(2,'must be at least 2 characters')
+  .max(32,'not more than 32 characters')
+  .required('This is a compulsory field'),
+
+  phoneNumber:yup.string(11,'must not be up to 11 numbers')
+  .max(17,'must not be more than 17 number')
+  .required('This is a compulsory field'),
+
+  email:yup.string('invalid characters')
+  .email('must not be an email')
+  .max(60,'not more than 32 characters')
+  .required('This is a compulsory field'),
+
+  password:yup.string('invalid characters')
+  .min(8,'must be up to 8 numbers')
+  .required('This is a compulsory field')
+  .oneOf([yup.ref('passwordConfirmation'),null],'password must match')
+
+})
 
 export function Signup ({navigation}) {
-    const [appIsReady, setAppIsReady] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
     async function prepare() {
@@ -47,80 +76,137 @@ export function Signup ({navigation}) {
     return null;
   }
 
-    return (
-        <SafeArea>
-            <ScrollView>
-                <Text style={styles.brand}>Thrift</Text>
-                <Text style={styles.intro}>Create an account to join 
-                Thrift cooperative society and enjoy tons of benefits</Text>
-                <View style={styles.alreadyHaveAccount}>
-                    <View style={styles.info}>
-                    <Text style={styles.infoTitle}>Already Have an Account?</Text>
-                    </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('Sign in')}>
-                    <FontAwesomeIcon icon={faCircleArrowRight}
-                    color ={Theme.colors.purple700}
-                    size={Theme.sizes[5]}/>
-                    </TouchableOpacity>
+  return (
+      <SafeArea>
+      
+          <ScrollView>
+            <Text style={styles.brand}>Thrift</Text>
+            <Text style={styles.intro}>Create an account to join 
+            Thrift cooperative society and enjoy tons of benefits</Text>
+            <View style={styles.alreadyHaveAccount}>
+                <View style={styles.info}>
+                <Text style={styles.infoTitle}>Already Have an Account?</Text>
                 </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Sign in')}>
+                <FontAwesomeIcon icon={faCircleArrowRight}
+                color ={Theme.colors.purple700}
+                size={Theme.sizes[5]}/>
+                </TouchableOpacity>
+            </View>
 
-                <View style={styles.form}>
-                    <TextInput
-                    placeholder='Last name'
-                    mode='outlined'
-                    outlineColor={Theme.colors.purple300}
-                    activeOutlineColor={Theme.colors.purple500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} />
+                <Formik
+                initialValues={{
+                  lastName:'',
+                  firstName:'',
+                  phoneNumber:'',
+                  email:'',
+                  password:'',
+                  passwordConfirmation:''
+                }}
+                onSubmit={(values,action) => {
 
-                    <TextInput
-                    placeholder='First name'
-                    mode='outlined'
-                    outlineColor={Theme.colors.purple300}
-                    activeOutlineColor={Theme.colors.purple500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} />
+                  action.resetForm();//clear everything in the inputs
+                }}
+                
+                validationSchema={formRules}>
+                    {({handleChange, handleBlur, handleSubmit, values, errors, touched }) => {
+                      return (
+                    <View style={styles.form}>
+                      <TextInput
+                        placeholder='Last name'
+                        mode='outlined'
+                        outlineColor={Theme.colors.purple300}
+                        activeOutlineColor={Theme.colors.purple500}
+                        style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} 
+                        onChangeText={handleChange('lastName')}
+                        onBlur={handleBlur('lastName')}/>
+                        <Text style={{display:touched.lastName && errors.lastName ? 'flex' : 'none', color:'red'}}>
+                          {touched.lastName && errors.lastName}
+                        </Text>
 
-                    <TextInput
-                    placeholder='Phone Number'
-                    mode='outlined'
-                    outlineColor={Theme.colors.purple300}
-                    activeOutlineColor={Theme.colors.purple500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
-                    keyboardType='phone-pad' />
+                        <TextInput
+                        placeholder='First name'
+                        mode='outlined'
+                        outlineColor={Theme.colors.purple300}
+                        activeOutlineColor={Theme.colors.purple500}
+                        style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} 
+                        onChangeText={handleChange('firstName')}
+                        onBlur={handleBlur('lastName')}/>
+                        <Text style={{display:touched.firstName && errors.firstName ? 'flex' : 'none', color:'red'}}>
+                          {touched.firstName && errors.firstName}
+                        </Text>
 
-                    <TextInput
-                    placeholder='Email Address'
-                    mode='outlined'
-                    outlineColor={Theme.colors.purple300}
-                    activeOutlineColor={Theme.colors.purple500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
-                    keyboardType='email-address' />
+                        <TextInput
+                        placeholder='Phone Number'
+                        mode='outlined'
+                        outlineColor={Theme.colors.purple300}
+                        activeOutlineColor={Theme.colors.purple500}
+                        style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
+                        keyboardType='phone-pad'
+                        onChangeText={handleChange('phoneNumber')}
+                        onBlur={handleBlur('phoneNumber')}
+                        value={values.phoneNumber} />
+                         <Text style={{display:touched.phoneNumber && errors.phoneNumber ? 'flex' : 'none', color:'red'}}>
+                          {touched.phoneNumber && errors.phoneNumber}
+                        </Text>
 
-                    <TextInput
-                    placeholder='Create password'
-                    mode='outlined'
-                    outlineColor={Theme.colors.purple300}
-                    activeOutlineColor={Theme.colors.purple500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
-                    secureTextEntry={true} />
+                        
 
-                    <TextInput
-                    placeholder='Confirm password'
-                    mode='outlined'
-                    outlineColor={Theme.colors.purple300}
-                    activeOutlineColor={Theme.colors.purple500}
-                    style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
-                    secureTextEntry={true} />
+                        <TextInput
+                        placeholder='Email Address'
+                        mode='outlined'
+                        outlineColor={Theme.colors.purple300}
+                        activeOutlineColor={Theme.colors.purple500}
+                        style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
+                        keyboardType='email-address' 
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}/>
+                         <Text style={{display:touched.email && errors.email ? 'flex' : 'none', color:'red'}}>
+                          {touched.email && errors.email}
+                        </Text>
 
-                  
-                    <Button
-                    mode="contained"
-                    color={Theme.colors.purple700} contentStyle={{paddingVertical:Theme.sizes[3]}}>Create Account
-                    </Button>
 
-                </View>
-            </ScrollView>
-        </SafeArea>
-    )
+                        <TextInput
+                        placeholder='Create password'
+                        mode='outlined'
+                        outlineColor={Theme.colors.purple300}
+                        activeOutlineColor={Theme.colors.purple500}
+                        style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
+                        secureTextEntry={true} 
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}/>
+                         <Text style={{display:touched.password && errors.password ? 'flex' : 'none', color:'red'}}>
+                          {touched.password && errors.password}
+                        </Text>
+
+
+                        <TextInput
+                        placeholder='Confirm password'
+                        mode='outlined'
+                        outlineColor={Theme.colors.purple300}
+                        activeOutlineColor={Theme.colors.purple500}
+                        style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}}
+                        secureTextEntry={true} 
+                        onChangeText={handleChange('passwordConfirmation')}
+                        onBlur={handleBlur('passwordConfirmation')}
+                        value={values.passwordConfirmation}/>
+
+                      
+                        <Button
+                        mode="contained"
+                        color={Theme.colors.purple700} contentStyle={{paddingVertical:Theme.sizes[3]}}
+                        onPress={handleSubmit}>Create Account
+                        </Button>
+                      </View>
+                      )
+                    }}
+            </Formik>
+
+          </ScrollView>
+      </SafeArea>
+  )
 }
 
 const styles = StyleSheet.create({  

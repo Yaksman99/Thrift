@@ -2,7 +2,8 @@
 // +++ Simply copy the whole of this code and ++++
 // +++ replace your Home.js with it. +++++++++++++
 // +++ Ensure you study the code!! +++++++++++++++
-
+import { useContext } from 'react';
+import { AppContext } from '../Utils/globals';
 import { View,Text,TouchableOpacity,StyleSheet,Image } from 'react-native';
 import { SafeArea } from '../Utils/safearea';
 import { Theme } from '../Utils/Theme';
@@ -15,12 +16,15 @@ import { Deposit } from './Deposit';
 import { History } from './History';
 import { Profile } from './Profile';
 
- function Home () {
+ function Home ({navigation}) {
+    const {userNames} = useContext(AppContext);
+
     return (
         <SafeArea>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.profile}>
+                        <Text style={styles.welcomeNote}>Hello, {userNames.fname}</Text>
                         <Text style={styles.welcomeNote}>Hello, Jane</Text>
                         <Image source={require('../assets/profile-pix.jpg')} 
                         style={styles.profileImg}/>
@@ -36,7 +40,8 @@ import { Profile } from './Profile';
                             <FontAwesomeIcon icon={faWallet} color='#fff' size={Theme.sizes[4]}/>
                         </View>
                         <View style={styles.transActionsBox}>
-                            <TouchableOpacity style={styles.deposit}>
+                            <TouchableOpacity style={styles.deposit}
+                            onPress={() => navigation.navigate('Deposit')}>
                                 <Text style={styles.depositText}>Deposit</Text>
                                 <FontAwesomeIcon icon={faCreditCard} 
                                 size={Theme.fonts.fontSizePoint.h3}
@@ -138,7 +143,6 @@ const styles = StyleSheet.create({
     transHeaderInfo:{
         flexDirection:'row',
         justifyContent:'space-around',
-        alignItems:'left',
         backgroundColor:Theme.colors.maroon900,
         margin:Theme.sizes[2],
         borderRadius:10,
