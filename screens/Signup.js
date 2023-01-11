@@ -119,7 +119,8 @@ export function Signup ({navigation}) {
                         activeOutlineColor={Theme.colors.purple500}
                         style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} 
                         onChangeText={handleChange('lastName')}
-                        onBlur={handleBlur('lastName')}/>
+                        onBlur={handleBlur('lastName')}
+                        value={values.lastName}/>
                         <Text style={{display:touched.lastName && errors.lastName ? 'flex' : 'none', color:'red'}}>
                           {touched.lastName && errors.lastName}
                         </Text>
@@ -131,7 +132,8 @@ export function Signup ({navigation}) {
                         activeOutlineColor={Theme.colors.purple500}
                         style={{fontSize:24,color:'#3C4048',marginBottom:Theme.sizes[1]}} 
                         onChangeText={handleChange('firstName')}
-                        onBlur={handleBlur('lastName')}/>
+                        onBlur={handleBlur('lastName')}
+                        value={values.firstName}/>
                         <Text style={{display:touched.firstName && errors.firstName ? 'flex' : 'none', color:'red'}}>
                           {touched.firstName && errors.firstName}
                         </Text>

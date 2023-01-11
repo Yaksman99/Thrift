@@ -4,7 +4,7 @@
 // +++ Ensure you study the code!! +++++++++++++++
 import { useContext } from 'react';
 import { AppContext } from '../Utils/globals';
-import { View,Text,TouchableOpacity,StyleSheet,Image } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,Image,Dimensions } from 'react-native';
 import { SafeArea } from '../Utils/safearea';
 import { Theme } from '../Utils/Theme';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -12,12 +12,22 @@ import { faCreditCard,faWallet,faClockRotateLeft } from '@fortawesome/free-solid
 import { faCreditCard as faCreditCardAlt } from '@fortawesome/free-regular-svg-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Carousel from 'react-native-reanimated-carousel';
 import { Deposit } from './Deposit';
 import { History } from './History';
 import { Profile } from './Profile';
 
+
+const carouselImgUrl = [
+    require('../assets/Events/diabetes-day.jpg'),
+    require('../assets/Events/marketing-agency.jpg'),
+    require('../assets/Events/diabetes-day.jpg'),
+]
+
  function Home ({navigation}) {
     const {userNames} = useContext(AppContext);
+    const screenWidth = Dimensions.get('screen').width; //for carousel
+    console.log (screenWidth)
 
     return (
         <SafeArea>
@@ -57,21 +67,29 @@ import { Profile } from './Profile';
                     </View>
                 </View>
 
-                <View style={styles.events}>
-                
+            <View style={styles.events}>
+            <Carousel
+            loop
+           width={screenWidth - 20}
+           height= '100%'
+            autoPlay={true}
+            data={carouselImgUrl}
+            scrollAnimationDuration={2000}
+            onSnapToItem={(index) => console.log('current index:', index)}
+            renderItem={({ index }) => (           
+            <Image style={styles.eventImg}
+                source={carouselImgUrl[index]}/>
+            
+                )}
+            />
                 </View>
-
-                <View style={styles.transactions}>
+                        <View style={styles.transactions}>
+                
                     <View style={styles.recentTrans}>
                         <FontAwesomeIcon />
                         <Text style={styles.recentTransText}>Recent transactions</Text>
+                        </View>
                     </View>
-                    
-                </View>
-
-                <View style={styles.loan}>
-                
-                </View>
             </View>
         </SafeArea>
     )
@@ -118,7 +136,7 @@ const styles = StyleSheet.create({
         flex:1
     },
     header:{
-        flex:1.8
+        flex:2.2
     },
     profile:{
         flex:1,
@@ -200,8 +218,12 @@ const styles = StyleSheet.create({
         color:Theme.colors.maroon700
     },
     events:{
-        flex:1.8,
-        backgroundColor:'orange'
+        flex:2.0,
+    },
+    musicImg:{
+        borderRadius:15,
+        height:'100%',
+        width:'100%',
     },
     transactions:{
         flex:1.8,
@@ -215,4 +237,4 @@ const styles = StyleSheet.create({
         flex:0.6,
         backgroundColor:'red'
     }
-})
+}) 

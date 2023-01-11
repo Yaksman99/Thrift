@@ -9,6 +9,22 @@ export function Signin () {
     <SafeArea>
         <ScrollView>
                 <Text style={styles.intro}>Please Sign in to continue</Text>
+                <Formik
+                initialValues={{
+                  lastName:'',
+                  firstName:'',
+                  phoneNumber:'',
+                  email:'',
+                  password:'',
+                  passwordConfirmation:''
+                }}
+                onSubmit={(values,action) => {
+
+                  action.resetForm();//clear everything in the inputs
+                }}
+                validationSchema={formRules}>
+                    {({handleChange, handleBlur, handleSubmit, values, errors, touched }) => {
+                      return (
 
                 <View style={styles.form}>
                     <TextInput
@@ -35,6 +51,9 @@ export function Signin () {
                         </Button>
                     </TouchableOpacity>
                 </View>
+                  )
+                }}
+        </Formik>
             </ScrollView>
         </SafeArea>
     )
